@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<script src="file:///android_asset/pixi.min.js" type="text/javascript"></script>
+<script src="file:///android_asset/pixi-spine.js" type="text/javascript"></script>
+
+
+
+<body>
+<script type="text/javascript">
+        var app = new PIXI.Application({
+            width: 340,
+            height: 350,
+            //forceCanvas: true
+        });
+
+    var spineBoy;
+
+    var background;
+var background2;
+var foreground;
+var foreground2;
+
+    document.body.appendChild(app.view);
+
+// load spine data
+PIXI.loader
+    .add('spineboy', 'file:///android_asset/raptor.json')
+    .add('coin', 'file:///android_asset/coin.json')
+    .load(onAssetsLoaded);
+
+app.stage.interactive = true;
+
+function onAssetsLoaded(loader, res) {
+
+    background = PIXI.Sprite.fromImage('iP4_BGtile.jpg');
+    background2 = PIXI.Sprite.fromImage('iP4_BGtile.jpg');
+
+    foreground = PIXI.Sprite.fromImage('iP4_ground.png');
+    foreground2 = PIXI.Sprite.fromImage('iP4_ground.png');
+
+    foreground.anchor.set(0, 0.7);
+    foreground.position.y = app.screen.height;
+    foreground2.anchor.set(0, 0.7);
+    foreground2.position.y = app.screen.height;
+
+
+
+
+    app.stage.addChild(background, background2, foreground, foreground2);
+    // create a spine boy
+    spineBoy = new PIXI.spine.Spine(res.spineboy.spineData);
+
+    // set the position
+    spineBoy.x = app.screen.width / 3;
+    spineBoy.y = app.screen.height-50;
+
+    spineBoy.scale.set(0.2);
+
+    // set up the mixes!
+//    spineBoy.stateData.setMix('walk', 'jump', 0.1);
+//    spineBoy.stateData.setMix('jump', 'walk', 0.4);
+
+    // play animation
+    spineBoy.state.setAnimation(0, 'walk', true);
+
+    app.stage.addChild(spineBoy);
+
+    app.stage.on('pointerdown', function() {
+        pickGun()
+        //JavaScriptInterface.doEchoTest("Hello from JS");
+    });
+
+
+    coin = new PIXI.spine.Spine(res.coin.spineData);
+
+    // set the position
+    coin.x = 50;
+    coin.y = app.screen.height-200;
+
+    coin.scale.set(0.2);
+    coin.state.setAnimation(0, 'animation', true);
+
+    app.stage.addChild(coin);
+
+}
+
+ function pickGun(){
+    spineBoy.state.setAnimation(0, 'gun-grab', false);
+    <!--spineBoy.state.setAnimation(0, 'gun-holster', false, 1);-->
+    <!--spineBoy.state.addAnimation(0, 'walk', true, 1);-->
+}
+
+function scaleUp(){
+    spineBoy.scale.set(0.2);
+}
+
+ function scaleDown(){
+    spineBoy.scale.set(0.1);
+}
+
+function testJump(){
+    spineBoy.state.setAnimation(0, 'jump', false);
+    spineBoy.state.addAnimation(0, 'walk', true, 0);
+}
+
+    </script>
+</body>
+
+</html>
