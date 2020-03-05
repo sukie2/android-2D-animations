@@ -1,2 +1,13 @@
 # android-2D-animations
-This is a demonstration of how Spine 2D assets are being used by pixijs runtime.
+This is an example od demonstrating the utilization of a 2D animation engine in Android. 
+Example game uses a WebView to render the animations.
+
+## Animation creation engine
+http://esotericsoftware.com/
+
+## Android JS runtime
+https://pixijs.io/examples/#/plugin-spine/pixie.js
+
+
+All sample animation assests are from https://pixijs.io/examples/#/plugin-spine/pixie.js
+
