@@ -1,13 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:baselineAligned="false">
 
-    <WebView
-        android:id="@+id/webView"
-        android:layout_width="match_parent"
+    <fragment android:name="com.sukie2.spine.GameFragment"
+        android:id="@+id/headlines_fragment"
+        android:layout_weight="1"
+        android:layout_width="0dp"
         android:layout_height="match_parent" />
 
-</FrameLayout>
+</LinearLayout>

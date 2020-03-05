@@ -5,106 +5,108 @@
 <script src="file:///android_asset/pixi-spine.js" type="text/javascript"></script>
 
 
-
 <body>
 <script type="text/javascript">
-        var app = new PIXI.Application({
-            width: 340,
-            height: 350,
-            //forceCanvas: true
-        });
-
-    var spineBoy;
-
-    var background;
-var background2;
-var foreground;
-var foreground2;
-
-    document.body.appendChild(app.view);
-
-// load spine data
-PIXI.loader
-    .add('spineboy', 'file:///android_asset/raptor.json')
-    .add('coin', 'file:///android_asset/coin.json')
+<!--    var app = new PIXI.Application(100, 100, {-->
+<!--        'transparent': true,-->
+<!--         'resolution': window.devicePixelRatio,-->
+<!--         'roundPixels': true-->
+<!--    });-->
+const app = new PIXI.Application();
+document.body.appendChild(app.view);
+app.stop();
+app.loader
+    .add('pixie', 'file:///android_asset/pixie.json')
     .load(onAssetsLoaded);
 
+let postition = 0;
+let background;
+let background2;
+let foreground;
+let foreground2;
+
 app.stage.interactive = true;
+var pixie;
 
 function onAssetsLoaded(loader, res) {
+    background = PIXI.Sprite.from('file:///android_asset/iP4_BGtile.jpg');
+    background2 = PIXI.Sprite.from('file:///android_asset/iP4_BGtile.jpg');
 
-    background = PIXI.Sprite.fromImage('iP4_BGtile.jpg');
-    background2 = PIXI.Sprite.fromImage('iP4_BGtile.jpg');
-
-    foreground = PIXI.Sprite.fromImage('iP4_ground.png');
-    foreground2 = PIXI.Sprite.fromImage('iP4_ground.png');
-
+    foreground = PIXI.Sprite.from('file:///android_asset/iP4_ground.png');
+    foreground2 = PIXI.Sprite.from('file:///android_asset/iP4_ground.png');
     foreground.anchor.set(0, 0.7);
     foreground.position.y = app.screen.height;
     foreground2.anchor.set(0, 0.7);
     foreground2.position.y = app.screen.height;
 
-
-
-
     app.stage.addChild(background, background2, foreground, foreground2);
-    // create a spine boy
-    spineBoy = new PIXI.spine.Spine(res.spineboy.spineData);
 
-    // set the position
-    spineBoy.x = app.screen.width / 3;
-    spineBoy.y = app.screen.height-50;
+    pixie = new PIXI.spine.Spine(res.pixie.spineData);
 
-    spineBoy.scale.set(0.2);
+    const scale = 0.25;
 
-    // set up the mixes!
-//    spineBoy.stateData.setMix('walk', 'jump', 0.1);
-//    spineBoy.stateData.setMix('jump', 'walk', 0.4);
+    pixie.x = 1024 / 7;
+    pixie.y = 500;
 
-    // play animation
-    spineBoy.state.setAnimation(0, 'walk', true);
+    pixie.scale.x = pixie.scale.y = scale;
 
-    app.stage.addChild(spineBoy);
+    app.stage.addChild(pixie);
 
-    app.stage.on('pointerdown', function() {
-        pickGun()
-        //JavaScriptInterface.doEchoTest("Hello from JS");
-    });
+    pixie.stateData.setMix('running', 'jump', 0.2);
+    pixie.stateData.setMix('jump', 'running', 0.4);
 
+    pixie.state.setAnimation(0, 'running', true);
 
-    coin = new PIXI.spine.Spine(res.coin.spineData);
+    app.stage.on('pointerdown', onTouchStart);
 
-    // set the position
-    coin.x = 50;
-    coin.y = app.screen.height-200;
+    function onTouchStart() {
+        JavaScriptInterface.doEchoTest("Hello from JS");
+        jump();
+    }
 
-    coin.scale.set(0.2);
-    coin.state.setAnimation(0, 'animation', true);
-
-    app.stage.addChild(coin);
-
+    app.start();
 }
 
- function pickGun(){
-    spineBoy.state.setAnimation(0, 'gun-grab', false);
-    <!--spineBoy.state.setAnimation(0, 'gun-holster', false, 1);-->
-    <!--spineBoy.state.addAnimation(0, 'walk', true, 1);-->
+function jump(){
+    pixie.state.setAnimation(0, 'jump', false);
+    pixie.state.addAnimation(0, 'running', true, 0);
 }
 
-function scaleUp(){
-    spineBoy.scale.set(0.2);
-}
+app.ticker.add(() => {
+    postition += 10;
 
- function scaleDown(){
-    spineBoy.scale.set(0.1);
-}
+    background.x = -(postition * 0.6);
+    background.x %= 1286 * 2;
+    if (background.x < 0) {
+        background.x += 1286 * 2;
+    }
+    background.x -= 1286;
 
-function testJump(){
-    spineBoy.state.setAnimation(0, 'jump', false);
-    spineBoy.state.addAnimation(0, 'walk', true, 0);
-}
+    background2.x = -(postition * 0.6) + 1286;
+    background2.x %= 1286 * 2;
+    if (background2.x < 0) {
+        background2.x += 1286 * 2;
+    }
+    background2.x -= 1286;
 
-    </script>
+    foreground.x = -postition;
+    foreground.x %= 1286 * 2;
+    if (foreground.x < 0) {
+        foreground.x += 1286 * 2;
+    }
+    foreground.x -= 1286;
+
+    foreground2.x = -postition + 1286;
+    foreground2.x %= 1286 * 2;
+    if (foreground2.x < 0) {
+        foreground2.x += 1286 * 2;
+    }
+    foreground2.x -= 1286;
+});
+
+
+
+</script>
 </body>
 
 </html>
