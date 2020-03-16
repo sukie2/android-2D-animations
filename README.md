@@ -24,8 +24,6 @@ Spine engine will combine all repeated parts of an animation and export as one i
 
 ![Image description](https://github.com/sukie2/android-2D-animations/blob/master/app/src/main/assets/pixie.png)
 
-This is a 
-objects from Android SDK?
 The beauty of this solution is the way it gets rid of the frame by frame animations used with AnimationDrawable class in Android SDK.
 This is a sample demonstration of how Spine 2D assets can be used in Android using PixiJS runtime.
 
