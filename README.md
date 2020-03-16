@@ -38,5 +38,40 @@ There are 3 main components.
 ## Project structure ##
 All the examples are stored in the `assets` folder and loaded into a WebView.
 
+### Native to JavaScript calls
+Include this on the Fraagment
+```
+ button.setOnClickListener {
+  webView.loadUrl("javascript:jump()")
+ }
+```
+And then on the Javascript
+```
+function jump(){
+ pixie.state.setAnimation(0, 'jump', false);
+ pixie.state.addAnimation(0, 'running', true, 0);
+}
+```
+### JavaScript to Native calls
+In Javascript
+```
+function onTouchStart() {
+ JavaScriptInterface.doEchoTest("Hello from JS");
+}
+```
+
+In native code in Fragment
+```
+webView.addJavascriptInterface(JSInterface(), "JavaScriptInterface")
+```
+Then create this class
+```
+class JSInterface {
+    @JavascriptInterface
+    fun doEchoTest(echo: String) {
+        println(echo)
+    }
+}
+```
 
 
