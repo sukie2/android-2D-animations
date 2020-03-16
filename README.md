@@ -1,4 +1,4 @@
-# Andriod game animation with Spine2D and PixiJS
+# Andriod ultra smooth game animation with Spine2D and PixiJS
 
 ![](spineGif.gif)
 
@@ -73,5 +73,5 @@ class JSInterface {
     }
 }
 ```
-
+# Important: Use an Android device for running/debugging spine. Emulator does not work properly in many cases.
 
